@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: 24-alpine
+      image: node:24-alpine
 
     services:
       mongodb:
