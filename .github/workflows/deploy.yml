@@ -14,8 +14,8 @@ jobs:
     environment: testing
     runs-on: ubuntu-latest
 
-    container:
-      image: node:24-alpine
+    # container:
+    #   image: node:24-alpine
 
     services:
       mongodb:
@@ -23,10 +23,12 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+          - 27017:27017
 
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb
+      MONGODB_CLUSTER_ADDRESS: localhost:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
