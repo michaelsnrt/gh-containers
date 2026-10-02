@@ -24,7 +24,7 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
         ports:
-          - 27017:27017
+          - 27017
 
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
@@ -55,6 +55,7 @@ jobs:
       - name: Output information
         run: |
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+          echo "cek port mongodb pada runner hosts github: ${{ job.services.mongodb.ports[27017] }}"
 
   deploy:
     needs: test
