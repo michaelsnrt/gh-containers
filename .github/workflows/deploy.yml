@@ -19,6 +19,7 @@ jobs:
 
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
@@ -30,7 +31,7 @@ jobs:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
         ports:
-          - 27017
+          - 27017:27017
 
     steps:
       - name: Get Code
@@ -46,19 +47,14 @@ jobs:
         run: npm ci
 
       - name: Run server
-        env:
-          MONGODB_CLUSTER_ADDRESS: 127.0.0.1:${{ job.services.mongodb.ports[27017] }}
         run: npm start & npx wait-on -t 30000 http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
 
       - name: Run tests
-        env:
-          MONGODB_CLUSTER_ADDRESS: 127.0.0.1:${{ job.services.mongodb.ports[27017] }}
         run: npm test
 
       - name: Output information
         run: |
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
-          echo "Port acak yang dialokasikan runner host: ${{ job.services.mongodb.ports[27017] }}"
 
   deploy:
     needs: test
